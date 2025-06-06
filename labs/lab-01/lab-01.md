@@ -2,11 +2,11 @@
 
 There are a variety of ways to install Prometheus. For example, you can do a basic installation from source, from package manager, install to Docker, or use my provided script.
 
-**For this webinar I recommend using the Bash script.** However, if you are uncomfortable executing other people's scripts, or have any issues with it, install via package manager.
+**For this video course I recommend using the Bash script.** However, if you are uncomfortable executing other people's scripts, or have any issues with it, install via package manager.
 
 ## Scripted Installation
 
-The included `prometheus-install` script is designed for Ubuntu 22.04/24.04 Server and Debian 12 Server (x64 platform) and has been tested on both.
+The included `prometheus-install` script is designed for Ubuntu 22.04/24.04 Server and Debian 12 Server (amd64 and arm64 platforms) and has been tested on both.
 
 > IMPORTANT! This script is designed to install newer versions of Prometheus. However, the version installed may not be an LTS version, and it may have compatibility issues with some Linux distros and with some Prometheus add-ons and graphing utilities.
 
@@ -16,8 +16,6 @@ Simply run the script as `root` or with `sudo`.
 
 Here's what the script will do:
 
-- Install Go
-- Install NodeJS
 - Install Prometheus
 - Configure and run Prometheus as a service
 
@@ -37,6 +35,8 @@ If you can see the version and man page and the service is active and enabled th
 👍 **GREAT WORK!** 👍
 
 > **IMPORTANT!**: At this point, our Prometheus server is scraping data (against itself for now) and will continue to do so until you stop the service or shut down the server.
+
+> Note: If you need to install to a hardware platform other than AMD64 or ARM64, you will need to install the binary manually from https://prometheus.io/download/.
 
 > Note: If you wish to install a newer version of Prometheus, find out the version number and simply change the PROM and PROMVERSION variables to the new version.
 
@@ -59,8 +59,6 @@ At any time, if you want to work with Prometheus manually, do the following:
 > Test it with `curl http://127.0.0.1:9090`
 >
 > Note: Make sure that cockpit.socket is disabled! (It uses the same port.) `sudo systemctl --now disable cockpit.service`
->
-> Note: To make use of the `node` and `go` commands, either logout and log back in or issue the `exec bash -l` command.
 
 ## Package Manager Installation
 

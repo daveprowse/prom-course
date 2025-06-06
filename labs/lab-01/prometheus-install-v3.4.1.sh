@@ -39,6 +39,8 @@ printf '%.0s\n' {1..2}
 echo
 printf "\n\033[7;32mSTARTING PROMETHEUS %s INSTALLATION IN 3 SECONDS! \033[0m" "$PROMVERSION"
 echo;sleep 3;echo
+mkdir temp 
+cd temp
 ## Create system user and directories
 groupadd --system prometheus
 useradd -s /sbin/nologin --system -g prometheus prometheus
