@@ -2,7 +2,7 @@
 
 #########################################
 
-## Updated April, 2025. Written by Dave Prowse: https://prowse.tech
+## Updated June, 2025. Written by Dave Prowse: https://prowse.tech
 
 ## This script will install Prometheus on Ubuntu or Debian. 
 ## AMD64 and ARM64 architectures are supported.
