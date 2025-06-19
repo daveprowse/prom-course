@@ -2,7 +2,8 @@
 
 There are a variety of ways to install Prometheus. For example, you can do a basic installation from source, from package manager, install to Docker, or use my provided script.
 
-**For this video course I recommend using the Bash script.** However, if you are uncomfortable executing other people's scripts, or have any issues with it, install via package manager.
+**For this video course I recommend using the provided Bash script.**
+However, if you are uncomfortable executing other people's scripts, or have any issues with it, install via package manager.
 
 ## Scripted Installation
 
@@ -12,7 +13,9 @@ The included `prometheus-install` script is designed for Ubuntu 22.04/24.04 Serv
 
 Simply run the script as `root` or with `sudo`.
 
-> Note: Make sure that it is set to executable. `chmod +x prometheus-install.sh`
+> Note: Make sure that it is set to executable.
+>
+> `chmod +x prometheus-install.sh`
 
 Here's what the script will do:
 
@@ -38,14 +41,16 @@ If you can see the version and man page and the service is active and enabled th
 
 > Note: If you need to install to a hardware platform other than AMD64 or ARM64, you will need to install the binary manually from https://prometheus.io/download/.
 
-> Note: If you wish to install a newer version of Prometheus, find out the version number and simply change the PROM and PROMVERSION variables to the new version.
+> Note: Later on, if you wish to install a newer version of Prometheus, find out the version number and simply change the PROM and PROMVERSION variables to the new version.
 
 ---
 
 At any time, if you want to work with Prometheus manually, do the following:
 
 1. Disable the Prometheus service: `sudo systemctl stop prometheus`
-2. Run the prometheus command, for example: `prometheus --config.file=/etc/prometheus/prometheus.yml`  
+2. Run the prometheus command, for example:
+
+    `prometheus --config.file=/etc/prometheus/prometheus.yml`  
 3. Have fun!
 
 ---
@@ -67,7 +72,7 @@ Installing via package manager is easy and has been well tested. Ubuntu Server o
 - Ubuntu Server: `apt install prometheus`
 - Debian Server: `apt install prometheus openipmi-`
 
-> Note: `openipmi` causes system degradation in Debian, so we are omitting it here.
+> Note: As of the writing of this document, `openipmi` causes system degradation in Debian, so we are omitting it here.
 
 Keep in mind that you are not getting the latest version of Prometheus with the package manager installation - far from it. However, it will be a stable version that you can rely on.
 
@@ -105,7 +110,7 @@ For a basic installation of Prometheus, do the following:
   /prometheus --help
   ```
 
-> Note: There may be dependency issues if you install this way on an Ubuntu or Debian server. The previous script is recommended as it sets up your system in a way where you can get right to work with Prometheus.
+> Note: There may be dependency issues if you install this way on an Ubuntu or Debian server. The script method is recommended as it sets up your system in a way where you can get right to work with Prometheus.
 
 > Note: To build from source, see the Prometheus repository: https://github.com/prometheus/prometheus
 
@@ -139,5 +144,9 @@ The configuration file would be stored in:
 `/opt/homebrew/etc/prometheus.yml`
 
 I don't recommend the Chocolatey install of Prometheus for Windows. As of the writing of this document Chocolatey carries a much older version.
+
+> **IMPORTANT CONSIDERATION!**
+
+I strongly urge you to install to a Linux system. That is how Prometheus is normally used in the field and is therefore the best way to learn.
 
 ---
