@@ -23,36 +23,30 @@ Although you can get away with a single Linux system for this course, I highly r
 
 The scripts and labs are designed for **Ubuntu** Server or **Debian** server (x64 platform). Work as root or as a user with sudo powers.
 
-If you don't have either Debian or Ubuntu you can download them from the following links.
+If you don't have either Ubuntu or Debian you can download them from the following links.
 
-- Debian [Download](https://www.debian.org/download)
 - Ubuntu Server [Download](https://ubuntu.com/download/server)
+- Debian [Download](https://www.debian.org/download)
 
 > Note: If you choose to run Debian, make sure that you install it as a server. To do so, deselect any desktops (GNOME, KDE, etc...) during the Task Selection phase of the installation.
 
 Most importantly, to install Prometheus see the first lab at [this link](./labs/lab-01/README.md).
 
+> Note: I don't recommend WSL or cloud-based systems. Instead, run your virtual machines locally with a tool such as VirtualBox, VMware Workstation, or Proxmox. This will provide you with the best results.
+
+> Note: If you are unsure how to set up a proper NAT network in VirtualBox, see [this link](https://prowse.tech/virtualbox/)
+
 ## Kubernetes
 
-You might also be interested in running, and monitoring, Kubernetes. During the course I'll be monitoring the following:
+You might also be interested in running, and monitoring, Kubernetes. Here are a few options. For this video course, I recommend, and  will be monitoring a MicroK8s cluster.
 
-- **Vanilla Kubernetes cluster** (three Ubuntu virtual machines). For scripts and details for installing an actual Kubernetes cluster, click [here](./z-more-info/k8s-scripts/README.md).
+- **MicroK8s Cluster** (three Ubuntu virtual machines). This is my main setup for this course. It's quite easy to install. For more information click [here](./z-more-info/microk8s/microk8s-notes.md).
+
+You could also set up Kubernetes with one of the following options:
 
 - **MiniKube**: For details on how to setup a Minkube, click [here](./z-more-info/minikube/minikube-install.md). If you want to run minikube then I recommend doing it on a Linux system with a GUI (desktop interface).
 
-You can also build K8s in the following ways:
-- Quick builds for Go or Docker environments: Click [here](https://github.com/kubernetes/kubernetes)
-- AWS EKS: For more information from AWS, click [here](https://aws.amazon.com/eks/).
-- Google GKE: For more information from Google, click [here](https://cloud.google.com/kubernetes-engine).
-
-> Note: You can use other tools such as kind, kOps, and Karpenter, as well as other cloud-based services (Azure, DO, Linode), but I won't be covering those in the course.
-
-> Note: I build my K8s clusters on AWS and Google with Terraform. If you are interested in using Terraform to build K8s, see the following documentation:
-> - AWS EKS: [Link](https://registry.terraform.io/providers/hashicorp/aws/latest/docs/resources/eks_cluster) 
-> - Google GKE: [Link](https://registry.terraform.io/providers/hashicorp/google/latest/docs/guides/using_gke_with_terraform)
-> - You will also want to install `kubectl` on your main system: [Link](https://kubernetes.io/docs/tasks/tools/install-kubectl-linux/)
->
-> For more about Terraform see my video course [here](https://learning.oreilly.com/videos/hashicorp-certified-terraform/9780138195366/).
+- **Vanilla Kubernetes cluster** (three Ubuntu virtual machines). For scripts and details for installing an actual Kubernetes cluster, click [here](./z-more-info/k8s-scripts/README.md).
 
 ---
 
@@ -66,10 +60,10 @@ You could get away with using Docker for everything: A Prometheus docker image, 
 
 ## Dave's Lab and Suggestions
 
-For the video course I will be using two Ubuntu servers, a Debian client running minikube, and a MicroK8s cluster with a controller and two workers.
+For the video course I will be using two Ubuntu servers, a Debian client running minikube, and a MicroK8s cluster with a controller and two workers. Here's what you will need:
 
-- For the Prometheus Fundamentals Video Course: You only need the two Ubuntu servers running.
-- For the Prometheus PCA Video Course: I recommend some kind of K8s cluster (for example MicroK8s) in addition to the two Ubuntu servers.
+- For the Prometheus Fundamentals Video Course: Only two Ubuntu servers.
+- For the Prometheus PCA Video Course: Two Ubuntu servers and some kind of K8s cluster (MicroK8s is recommended).
 
 ---
 
