@@ -11,11 +11,13 @@ The included `prometheus-install` script is designed for Ubuntu 22.04/24.04 Serv
 
 > IMPORTANT! This script is designed to install newer versions of Prometheus. However, the version installed may not be an LTS version, and it may have compatibility issues with some Linux distros and with some Prometheus add-ons and graphing utilities.
 
-Simply run the script as `root` or with `sudo`.
+1. Make sure that the script is set to executable.
 
-> Note: Make sure that it is set to executable.
->
-> `chmod +x prometheus-install.sh`
+  ```
+  chmod +x prometheus-install.sh
+  ```
+
+2. Run the script with `sudo` (or as root).
 
 Here's what the script will do:
 
