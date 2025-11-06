@@ -1,6 +1,4 @@
-# Prometheus Certification ......
-
-*--- Working ---*
+# Prometheus Video Course
 
 Copyright © Dave Prowse
 
@@ -10,13 +8,14 @@ Discord Server: https://discord.gg/mggw8VGzUp
 
 ---
 
-This is the repository for the live webinar:
+This is the repository for the following Prometheus video courses:
 
-***Using Prometheus to Monitor Linux and Kubernetes***
+- Prometheus Fundamentals
+- Prometheus Certified Associate (PCA)
 
 All of the labs can be found within.
 
-Link: https://github.com/daveprowse/prom-live
+Link: https://github.com/daveprowse/prom-course
 
 ## Prepare Linux VMs!
 
