@@ -1,4 +1,4 @@
-# Prometheus Video Course
+# Prometheus Video Course Labs
 
 Copyright © Dave Prowse
 
@@ -10,8 +10,8 @@ Discord Server: https://discord.gg/mggw8VGzUp
 
 This is the repository for the following Prometheus video courses:
 
-- Prometheus Fundamentals
 - Prometheus Certified Associate (PCA)
+- Prometheus Fundamentals
 
 All of the labs can be found within.
 
