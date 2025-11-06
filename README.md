@@ -22,12 +22,12 @@ Link: https://github.com/daveprowse/prom-live
 
 Although you can get away with a single Linux system for this course, I highly recommend that you prepare at least two, local, Linux virtual machines in a NAT network. One to run Prometheus, and the other to be monitored. This is a best practice that will allow your systems to be somewhat isolated from your main system and network. Make sure that your main system can communicate with the virtual machines via SSH and web browser.
 
-The scripts and labs are designed for **Ubuntu** 22.04 Server or **Debian** 12 server (x64 platform). Work as root or as a user with sudo powers.
+The scripts and labs are designed for **Ubuntu** Server or **Debian** server (x64 platform). Work as root or as a user with sudo powers.
 
 If you don't have either Debian or Ubuntu you can download them from the following links.
 
-- Debian 12 [Download](https://www.debian.org/download)
-- Ubuntu 22.04 Server [Download](https://releases.ubuntu.com/jammy/ubuntu-22.04.4-live-server-amd64.iso)
+- Debian [Download](https://www.debian.org/download)
+- Ubuntu Server [Download](https://ubuntu.com/download/server)
 
 > Note: If you choose to run Debian, make sure that you install it as a server. To do so, deselect any desktops (GNOME, KDE, etc...) during the Task Selection phase of the installation.
 
@@ -65,11 +65,12 @@ You could run everything for this course on a single VM running Docker.
 
 You could get away with using Docker for everything: A Prometheus docker image, a Docker-based MiniKube, and a separate Debian Docker image to be monitored, and the whole thing could run on a single system and be fairly lightweight. The downside is that you will lose some functionality and won't be able to follow along with everything we cover in the course. But it's a good substitute if you can't run several virtual machines and/or full K8s clusters.
 
-## Dave's Lab
+## Dave's Lab and Suggestions
 
-Here is the network diagram of systems I will be using for this course. For the most part I will be focusing on the Proxmox systems. A larger version of the image can be found in the images directory. 
+For the video course I will be using two Ubuntu servers, a Debian client running minikube, and a MicroK8s cluster with a controller and two workers.
 
-![Lab Setup](./images/prom-map2.png)
+- For the Prometheus Fundamentals Video Course: You only need the two Ubuntu servers running.
+- For the Prometheus PCA Video Course: I recommend some kind of K8s cluster (for example MicroK8s) in addition to the two Ubuntu servers.
 
 ---
 
