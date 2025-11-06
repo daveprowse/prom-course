@@ -2,7 +2,7 @@
 
 #########################################
 
-## Updated June, 2025. Written by Dave Prowse: https://prowse.tech
+## Updated Nov, 2025. Written by Dave Prowse: https://prowse.tech
 
 ## This script will install Prometheus on Ubuntu or Debian. 
 ## AMD64 and ARM64 architectures are supported.
@@ -11,6 +11,9 @@
 
 ## This script requires that you work as `root` or with sudo capabilities. 
 
+## If you wish to use a newer version of Prometheus, simply change the version numbers within the variables:
+## PROMVERSION, and PROM_AMD64 or PROMARM64
+
 ## !!! THIS IS FOR EDUCATIONAL PURPOSES ONLY. ONLY RUN THIS SCRIPT ON A TEST SYSTEM !!!
 
 ### TODO: systend hardening options in service file, EnvironmentFile=/etc/default/prometheus in [Service] ???, , more bash linting...
@@ -18,9 +21,9 @@
 #########################################
 
 # Variables
-PROMVERSION=v3.4.1
-PROM_AMD64=prometheus-3.4.1.linux-amd64
-PROM_ARM64=prometheus-3.4.1.linux-arm64
+PROMVERSION=v3.7.2
+PROM_AMD64=prometheus-3.7.2.linux-amd64
+PROM_ARM64=prometheus-3.7.2.linux-arm64
 UBUNTU_MAN_VERSION=noble
 
 clear -x
