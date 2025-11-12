@@ -1,107 +1,228 @@
-# ⚙️ Lab 02 - Web UI
+# ⚙️ Lab 02 - Metrics versus Logs and Traces
 
 In this lab we will:
 
-- Access the Prometheus expression browser (web UI).
-- Examine the Expression Browser components.
-- Run some basic queries.
+- Show how to view metric data from the command line.
+- Use the Prometheus query log.
 
-> Note: Remember that I will be working with Linux servers that are running Prometheus.
+## Analyze Metrics in the Command Line
 
-## Access the Prometheus Expression Browser (Web UI)
+So far we have run our queries from within the Web UI. But you can also do it from the command line. 
 
-You can access the Web UI from the local machine or remotely.
+> Note: The following should work locally or remotely.
 
-- Locally: `http://localhost:9090` or `http://127.0.0.1:9090`
-- Remotely: `http://<ip_address>:9090`
+First, open up the terminal on your Prometheus server.
 
-Because I usually run my servers without a GUI, I'll be accessing them from my main system via their IP addresses.
+Enter this basic query:
 
-Consider using Chrome, Firefox, or Chromium to make the connection.
+```
+curl http://localhost:9090/metrics
+```
 
-> Note: If you connect from a remote system, make sure that port 9090 is not firewalled or otherwise blocked.
+That should give you a list of the available metrics to you. *Too many to count!*
 
-## Examine the Expression Browser Components
+Narrow the list! For example:
 
-Take a few minutes to explore the parts that make up the web UI.
+```
+curl http://localhost:9090/metrics | grep "process_resident"
+```
 
-- **Graph:** The home page is the "Graph" page. From here we can enter expressions and view the results.
-- **Alerts:** This page shows any alerts and tripped thresholds that you have set. It will show these for all hosts that you are monitoring.
-- **Status:** The Status menu allows you to see all of your targets (hosts) that you are scraping from as well as database status, your rules, and configuration.
-- **Help:** The help option simply brings you to the Prometheus documentation. USE IT!
+This should give you a short list - only two. One is a **HELP** metric that describes what the metric is. The other is the actual metric (preceeded by **TYPE**), in this case - a gauge.
 
-By default, Prometheus is designed to scrape metrics from itself. So you can use the local system to learn about Prometheus metrics.
+> Note: Using `grep` in the command line is just one way to search for the metric you need. But there are others! Use the tool that works best for you.
 
-## Run Basic Queries
+> Note: You can use `127.0.0.1` in place of `localhost` if you wish. You can also connect to the server remotely. For example, I would connect to my Prometheus server from my workstation using it's IP: `10.42.25.1`. 
 
-Return back to the Graph page by clicking "Graph" or the Prometheus name and/or logo.
+Now let's show an actual query of a metric using `curl`.
 
-### Our First Expression
+```
+curl 'http://localhost:9090/api/v1/query?query=up'
+```
 
-Now, in the query field let's run our first expression:
+This command accesses the metrics API section of the Prometheus server. This command should respond with a what looks like a good deal of information, but at the end it should show the current value of the metric, 1, which means the server is up.
 
-`up`
+You can do this with any metric name in Prometheus. Just replace "up" with the metric name.
 
-This is the most basic of queries. It is designed to simply scrape the server. If the server responds to the scrape, it shows as "1", meaning it was successful.
+Try another, based on our previous filtered search:
 
-You will note that you have two ways of viewing the data: Table and Graph. Table enables you to view the information as columns and rows of text and numbers. Graph creates a basic line graph for you to view the data in a more visual manner. Depending on the type of query you run, one will work better than the other.
+```
+curl 'http://localhost:9090/api/v1/query?query=process_resident_memory_bytes'
+```
 
-> Note: In older versions of the Web UI, "Table" was previously known as "Console".
+This measures the amount of RAM that the Prometheus server is using. In the "value" field you are looking for the second number. It will probably be in the neighborhood of 100 MB.
 
-> Extra: Try the expression `prometheus_build_info` just for fun and view in Table mode.
+The way that this information is displayed is machine-readable, not quite human readable. To make it more human readable try it again but pipe it to jq. For example:
 
-### Our Second Expression
+```
+curl 'http://localhost:9090/api/v1/query?query=process_resident_memory_bytes' | jq
+```
 
-Now, make sure that the "Enable autocomplete" checkbox is checked. This will give you autocomplete options based on what you type.
+Now it's a lot easier to read the fields!
 
-Try another expression:
+> Note: If you don't have jq, you can install it easily with `sudo apt install jq`. 
 
-`prometheus_http_requests_total`
+> Note: More information on the HTTP API can be found here: https://prometheus.io/docs/prometheus/latest/querying/api/
 
-As you type, the web UI should guess at what you need and should list the expression we want at the very top.
+👍 Excellent work!
 
-Press `enter` to accept its suggestion, or arrow to the suggestion that you want.
+## Use the Prometheus Query Log
 
-Press `enter` again to "Execute" the query. 
+While Prometheus is not known as a *logging* observability tool per se, it can do some logging anyway! Let's set it up.
 
-You should see a lot of results. In Table mode, scroll down to the handler named "/api/v1/query". That metric should show several results.
-https://prometheus.io/docs/prometheus/latest/querying/basics/
-Scroll down to the handler named "/graph". That should have several requests. It is the main web page that we are working at.
+### Modify the prometheus.yml configuration file
 
-Now look at "/metrics" this should have many results. Those are all of the metrics that are being scraped right now.
+You will add a line that tells Prometheus where to store the logging file (which will be called query.log).
 
-Now view the same information in Graph mode. It will show a single number for the duration of the measurement. This combines all of the HTTP metrics listed in the table. Because this particular expression is considered to be a *counter* it is sometimes better to view the information in Table mode.
+1. Open `/etc/prometheus/prometheus.yml` with sudo.
+2. After the `evaluation_interval` line, add the following:
 
-Finally, let's show this as a range vector query by adding a time frame:
+    ```
+    query_log_file: /var/lib/prometheus/query.log
+    ```
 
-`prometheus_http_requests_total[5m]`
+    > Note: This lab is based on the scripted installation of Prometheus. However, the data directory can vary depending on your installation. Modify it as necessary. If you are running Prometheus statically, use `/prometheus/query.log` or store the file in the `./data` directory wherever you copied the Prometheus binary to. 
 
-> NOte: This does not work in Graph mode, but only in Table mode.
+3. Save and close the configuration file.
+4. Restart Prometheus
+   
+   ```
+   sudo systemctl restart prometheus
+   ```
 
-You should see less results than you did before because you are viewing data from a smaller range of time.
+Now look in `/var/lib/prometheus`. It should have a file called `query.log`.
+   
 
-### Our Third Expression
+### Verify that the Query Log is Functioning
 
-Let's find out how much memory is being used by our server. Use the following expression:
+Prometheus should have now generated a `query.log` file. However, it won't be populated until you start making some queries!
 
-`process_resident_memory_bytes`
+Let's run a query that we did previously:
 
-View the result in "Table" mode and you will find the number of bytes that are currently being used by Prometheus.
+```
+curl 'http://localhost:9090/api/v1/query?query=process_resident_memory_bytes' | jq
+```
 
-However, this is not trackable or measurable over time. So click on the "Graph" tab for a better visualization.
+Now, retun back to your query.log file and run the following command:
 
-You will note that the results are from a range of time including before you issued the query! That's because Prometheus, once running, is continually scraping based on the rules that you create (or in this case, the default Prometheus rules and configuration.) If you installed Prometheus using my script, it will have initiated metric scraping immediately when the installation completed.
+```
+cat query.log | jq
+```
 
-> Note: If you are running a Linux system, consider comparing this to the amount of bytes shown for Prometheus in the `top` program. The "RES" memory should be very close to the Prometheus result. Press `M` to sort by the Memory column or filter for Prometheus by pressing `o` and then `COMMAND=PROM`.
+This should display all of the log information for our query. Take a minute or two to analyze the information. You will note a few things:
+
+- A timestamp for exactly when the query was done.
+- The type of query (in this case - INFO).
+- Exactly how long it took for the query to complete.
+- The API path and method of the query.
+
+You can also verify if the query log is enabled - with a *query*!
+
+```
+curl 'http://localhost:9090/api/v1/query?query=prometheus_engine_query_log_enabled' | jq
+```
+
+Remember, look to the second number in the "value" field. It should be set to "1", meaning querying is enabled. 
+
+And since this was another query that we ran, it should show up in the `query.log` file as "promql query logged". 
+
+### Disable the Query Log
+
+For now, let's disable the query log. This will save on processing power.
+
+Comment out the query line in the prometheus.yml file:
+
+`# query_log_file: /var/lib/prometheus/query.log`
+
+and restart the Prometheus server:
+
+`sudo systemctl restart prometheus`
+
+✅ That's it! Great job!
+
+---
+
+## Extra Credit
+
+You can also discern how many queries have failed so far:
+
+```
+curl 'http://localhost:9090/api/v1/query?query=prometheus_engine_query_log_failures_total' | jq
+```
+
+Hopefully, yours will show a value of "0".
+
+---
+
+If you are running Prometheus manually (with no service), and you are trying to enable the query log, you would either need to shut down the server and start it again manually, or *reload* the Prometheus configuration. 
+
+To reload the configuration, you would need to start the Prometheus server with the `--web.enable-lifecycle` flag.
+
+Then, you can reload the configuration with a command such as:
+   
+   ```
+   curl -X POST http://127.0.0.1:9090/-/reload
+   ```
+
+This way, you don't have to *restart* the entire Prometheus server - something we try to avoid in the field. 
+
+---
+
+You could also apply this method if you have Prometheus running as a service as well. For example, in our scripted installation, the service file was created here:
+
+`/lib/systemd/system/prometheus.service`
+
+It should look similar to this:
+
+```
+[Unit]
+Description=Monitoring system and time series database (Prometheus)
+Documentation=https://prometheus.io/docs/introduction/overview/ man:prometheus(1)
+After=time-sync.target
+
+[Service]
+Restart=on-failure
+User=prometheus
+Group=prometheus
+ExecStart=/usr/bin/prometheus $ARGS \
+--config.file /etc/prometheus/prometheus.yml \
+--storage.tsdb.path /var/lib/prometheus/metrics2
+ExecReload=/bin/kill -HUP $MAINPID
+TimeoutStopSec=20s
+SendSIGKILL=no
+
+[Install]
+WantedBy=multi-user.target
+```
+
+To add web-enable, you could add the following flag (or argument) to the ExecStart section:
+
+`--web.enable-lifecyle`
+
+Be sure to escape all lines (with `\`) except for the last line in ExecStart. So for example, your ExecStart section might look like this:
+
+```
+ExecStart=/usr/bin/prometheus $ARGS \
+--config.file /etc/prometheus/prometheus.yml \
+--storage.tsdb.path /var/lib/prometheus/metrics2 \
+--web.enable-lifecycle
+```
+
+> Note: There are several instances where you would *not* want web.enable. Keep this in mind!
+
+---
+
+Alternative method: You could reload without the lifecycle API (web.enable). This would be done by finding the Prometheus process ID and the sending the SIGHUP signal to it.
+
+`pgrep prometheus`
+
+Find out the process ID (PID), then:
+
+`kill -HUP <prometheus_pid>`
+
+> **!! USE WITH CAUTION !!**
 
 ---
 
 **😁 FANTASTIC!! 😁**
 
 ---
-
-## Extra Credit
-
-To learn more about querying and expressions, see the official documentation:
-
-https://prometheus.io/docs/prometheus/latest/querying/basics/
