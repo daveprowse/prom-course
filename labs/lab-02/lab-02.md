@@ -80,7 +80,7 @@ You will add a line that tells Prometheus where to store the logging file (which
     query_log_file: /var/lib/prometheus/query.log
     ```
 
-    > Note: This lab is based on the scripted installation of Prometheus. However, the data directory can vary depending on your installation. Modify it as necessary. If you are running Prometheus statically, use `/prometheus/query.log` or store the file in the `./data` directory wherever you copied the Prometheus binary to. 
+    > Note: This lab is based on the scripted installation of Prometheus. However, the data directory can vary depending on your installation. Modify it as necessary. If you are running Prometheus statically, store the file in the `./data` directory wherever you copied the Prometheus binary to. Or, if you are working in Docker, use `/prometheus/query.log`.  
 
 3. Save and close the configuration file.
 4. Restart Prometheus
