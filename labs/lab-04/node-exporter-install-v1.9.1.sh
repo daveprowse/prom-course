@@ -19,9 +19,9 @@
 #########################################
 
 # Variables
-NODE_EXPORTER_VERSION=v1.9.1
-NODE_EXPORTER_AMD64=node_exporter-1.9.1.linux-amd64
-NODE_EXPORTER_ARM64=node_exporter-1.9.1.linux-arm64
+NODE_EXPORTER_VERSION=v1.10.2
+NODE_EXPORTER_AMD64=node_exporter-1.10.2.linux-amd64
+NODE_EXPORTER_ARM64=node_exporter-1.10.2.linux-arm64
 UBUNTU_MAN_VERSION=noble
 
 # sudo check and confirmation

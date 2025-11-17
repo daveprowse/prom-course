@@ -59,7 +59,7 @@ Now, let's modify the prometheus.yml file on the Prometheus server so that we ca
 ```
 
 > Note: Replace `<ip_address_of_remote_host>` with the actual IP address of the system to be monitored (or hostname). For example:
-> `10.42.88.2`
+> `10.42.25.2`
 
 - Save and quit out of the file.
 - Restart the prometheus service:
@@ -102,7 +102,7 @@ From the remote system:
 - Start typing "prom" and look at the various types of metrics that can be used in the PromUI.
 - Start a new query on the remote system. For example:
 
-  `up{instance="10.42.88.2:9100",job="remote-systems"}`
+  `up{instance="10.42.25.2:9100",job="remote-systems"}`
 
   > Note: Replace the IP address with the IP address of your remote system.
 
@@ -113,65 +113,6 @@ From the remote system:
 
 > Note: You probably noticed the web UI offering autocomplete suggestions for the instance and the job. Just press `enter` to accept these.
 
-## Query the Remote System from Grafana
-
-Go to your main Grafana browser tab and access the dashboard you created in a previous lab. You should have a panel up and running.
-
-- Create a new query:  
-  - Click the "Add" button.
-  - Select "Visualization".
-  - In the query section, click "+ Add query".
-  - This time, code the query by clicking the "Code" button. Add the following gauge:
-    `process_resident_memory_bytes{instance="<ip_address>:9100",job="remote-systems"}`
-    > Note: Use auto-completion as much as possible.
-- Run the query.
-- Change the visualization by clicking the "Time series" dropdown menu and selecting "Gauge". (When you have an extra minute, take a look at the different measurement types you can select from.)
-- Apply (or Save) the Dashboard.
-- View your results.
-
-This will create a new panel (graph) where you can view the results.
-
-> Note: If you wanted the results to show up in the same panel then select click the panel's menu icon (three dots on the upper-right) and select "Edit".
-
-In this case, Prometheus is scraping the metric for the amount of memory used by the remote system's node_exporter.
-
-Save the results to the dashboard by clicking the disk icon.
+Excellent WORK! 🏆🏆
 
 ---
-
-**❣️ LOVE IT ❣️**
-
----
-
-## Extra Credit
-
-Check out the node_exporter man page:
-
-`man prometheus-node-exporter`
-
-Learn more about panels and visualizations:
-
-https://grafana.com/docs/grafana/latest/panels-visualizations/
-
-**Keyboard Shortcuts**
-
-Grafana has a number of keyboard shortcuts available. Press ? on your keyboard to display all keyboard shortcuts available in your version of Grafana.
-
-    Ctrl+S: Saves the current dashboard.
-    f: Opens the dashboard finder / search.
-    d+k: Toggle kiosk mode (hides the menu).
-    d+e: Expand all rows.
-    d+s: Dashboard settings.
-    Ctrl+K: Opens the command palette.
-    Esc: Exits panel when in fullscreen view or edit mode. Also returns you to the dashboard from dashboard settings.
-
-Focused panel
-
-By hovering over a panel with the mouse you can use some shortcuts that will target that panel.
-
-    e: Toggle panel edit view
-    v: Toggle panel fullscreen view
-    ps: Open Panel Share Modal
-    pd: Duplicate Panel
-    pr: Remove Panel
-    pl: Toggle panel legend
