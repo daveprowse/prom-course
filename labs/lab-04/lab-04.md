@@ -115,7 +115,7 @@ From the remote system:
 
 - View the target's health.
 
-Go to the Prometheus Web UI > Status > Target health. You should see the endpoint listed under "remote-systems".
+  Go to the Prometheus Web UI > Status > Target health. You should see the endpoint listed under "remote-systems".
 
 ---
 
