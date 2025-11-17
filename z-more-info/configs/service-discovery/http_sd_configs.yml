@@ -1,0 +1,24 @@
+# Examples of HTTP service discovery. 
+# These would normally be part of the prometheus.yml file.
+# They would be placed within the scrape_configs section as "http_sd_configs"
+
+## Example 1 - showing within the scrape_configs section
+
+scrape_configs:
+  - job_name: 'my_http_sd_job'
+    http_sd_configs:
+      - url: 'http://your-service-discovery-endpoint/targets'
+        refresh_interval: 30s
+
+### The target URL will contain a JSON file with all targets to be scraped. 
+### This could be called targets.json, discovery.json, or something similar.
+### See the targets.json file in this directory.
+
+## Example 2 - more information - http_sd_config section only.
+
+http_sd_configs:
+  url: 'http://10.0.2.9/api/internal/hosts'
+  refresh_interval: 600
+  http_headers:
+    "Purpose":
+      values: ["Prometheus-http-scraper"]

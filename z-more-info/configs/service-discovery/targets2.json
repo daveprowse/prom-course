@@ -1,0 +1,18 @@
+[
+  {
+    "targets": [ "app-server-01:8080", "app-server-02:8080" ],
+    "labels": {
+      "env": "production",
+      "application": "my_application",
+      "instance_type": "web_server"
+    }
+  },
+  {
+    "targets": [ "db-server-01:9100" ],
+    "labels": {
+      "env": "production",
+      "application": "my_application",
+      "instance_type": "database"
+    }
+  }
+]

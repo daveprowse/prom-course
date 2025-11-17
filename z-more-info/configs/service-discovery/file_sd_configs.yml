@@ -1,0 +1,12 @@
+# Example of file-based service discovery.
+# This would be placed in the prometheus.yml file within the scrape_configs section.
+
+file_sd_configs:
+  files:
+    - "/etc/prometheus/targets/*.yml"
+    - "/opt/targets/*.yml"
+    - "/data/dynamic-targets/*.yaml"
+
+  refresh_interval: 60
+
+# The default refresh interval is 5 minutes (600 seconds) but you can modify it as shown above.

@@ -1,0 +1,42 @@
+# AWS service discovery examples
+
+## Example 1: different naming options within scrape_configs:
+## could use "aws" for generic discover, "ec2", or "ecs"
+
+scrape_configs:
+  - job_name: 'ec2-targets'
+    ec2_sd_configs:
+      - region: us-east-1
+        # ... other EC2 specific configurations
+  
+  - job_name: 'ecs-targets'
+    ecs_sd_configs:
+      - region: us-west-2
+        # ... other ECS specific configurations
+
+
+## Example 2: AWS EC2 Region Configuration
+## This would be inside scrape_configs > - job_name > aws_sd_configs
+
+region: "us-east-2"
+endpoint: "https://ec2.us-east-2.amazonaws.com"
+
+# AWS Authentication Example
+role_arn: "arn:aws:iam::<IAM_number>:role/PrometheusServiceDiscovery"
+
+refresh_interval: 300s
+port: 9100  # Default port for the node_exporter extension
+
+# EC2 Instance Filters
+filters:
+  - name: "tag:Environment"
+    values: ["production"]
+  - name: "instance-state-name"
+    values: ["running"]
+  - name: "tag:Service"
+    values: ["web", "api"]
+  - name: "vpc-id"
+    values: ["vpc-<id>"]
+
+follow_redirects: true
+enable_http2: true

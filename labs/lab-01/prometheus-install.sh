@@ -17,7 +17,8 @@
 
 ## !!! THIS IS FOR EDUCATIONAL PURPOSES ONLY. ONLY RUN THIS SCRIPT ON A TEST SYSTEM !!!
 
-### TODO: systend hardening options in service file, EnvironmentFile=/etc/default/prometheus in [Service] ???, , more bash linting...
+### TODO: systend hardening options in service file, show error if config file fails... 
+### TODO: EnvironmentFile=/etc/default/prometheus in [Service] ???, , more bash linting...
 
 #########################################
 
