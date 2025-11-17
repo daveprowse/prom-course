@@ -64,7 +64,7 @@ Now, let's modify the prometheus.yml file on the Prometheus server so that we ca
 - Save and quit out of the file.
 - Restart the prometheus service:
 
-  `sudo systemctl restart prometheus`
+  `sudo systemctl reload prometheus`
 
   If you encounter an error, then double-check your configuration file for YAML syntax issues. You can also check for issues with: `journalctl -u prometheus`.
 
@@ -112,6 +112,12 @@ From the remote system:
   `process_cpu_seconds_total{instance="<ip_address_of_remote_system>",job="remote-systems"}`
 
 > Note: You probably noticed the web UI offering autocomplete suggestions for the instance and the job. Just press `enter` to accept these.
+
+- View the target's health.
+
+Go to the Prometheus Web UI > Status > Target health. You should see the endpoint listed under "remote-systems".
+
+---
 
 Excellent WORK! 🏆🏆
 
