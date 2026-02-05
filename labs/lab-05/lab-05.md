@@ -40,16 +40,6 @@ Access the server:
 
 ---
 
-## Part 2 - Grafana Basic Functionality
-
-In this section we will:
-
-- Connect to the Grafana server and login.
-- Configure a data source.
-- Create a dashboard.
-- Add basic queries.
-- Save our Dashboard.
-
 ### Connect to the Grafana Server and Login
 
 - Connect to the Grafana server in the web browser.
@@ -62,7 +52,18 @@ In this section we will:
 
 - Login with the username/password: admin/admin
 - Change the password to something more secure. (Make a note of your new password.)
-  
+
+---
+
+## Part 2 - Grafana Basic Functionality
+
+In this section we will:
+
+- Configure a data source.
+- Create a dashboard.
+- Add basic queries.
+- Save our Dashboard.
+
 ### Configure a Data Source
 
 Before we can create a dashboard we have to set up a data source. The data source will be Prometheus. During this process, Grafana will query the Prometheus API.

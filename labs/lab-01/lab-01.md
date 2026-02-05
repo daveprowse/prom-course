@@ -33,6 +33,9 @@ Once finished, Prometheus will run automatically and should be accessible from `
 - Version: `prometheus --version`
 - Service: `systemctl status prometheus`
 - Transfer a URL: `curl http://127.0.0.1:9090`. It should show "Found".
+  > Note: You could also use the following command to see if Prometheus is healthy:
+  >
+  > `curl -s http://localhost:9090/-/healthy`
 - Man page: `man prometheus`
 
 If you can see the version and man page and the service is active and enabled then you are golden!
@@ -95,9 +98,12 @@ Here is a ready-to-go Prometheus installation in a docker container:
 
 `docker run --name prometheus -d -p 127.0.0.1:9090:9090 prom/prometheus`
 
+**!! IMPORTANT**: See the complete Docker Lab [here](../../z-more-info/additional-labs/installing-prometheus-to-docker).
+
+---
 > More info about Prometheus in Docker: https://prometheus.io/docs/prometheus/latest/installation/
 
-> Note: If you don't have Docker installed, here is the procedure for Debian: https://docs.docker.com/engine/install/debian/.
+---
 
 ## Manual Installation
 
