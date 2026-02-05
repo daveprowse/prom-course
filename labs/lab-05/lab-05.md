@@ -1,11 +1,11 @@
-# ⚙️ Lab 03 - Dashboarding
+# ⚙️ Lab 05 - Dashboarding
 
 In this lab we will:
 
 - Install the Grafana Dashboard to our Prometheus server.
 - Show some basic functionality of the dashboard.
 
-## Install the Grafana Dashboard
+## Part 1 - Install the Grafana Dashboard
 
 There are scripts available to automate the install:
 
@@ -40,7 +40,7 @@ Access the server:
 
 ---
 
-## Grafana Basic Functionality
+## Part 2 - Grafana Basic Functionality
 
 In this section we will:
 
