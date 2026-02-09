@@ -5,3 +5,24 @@ groups:
         expr: up{job="node"} ==0
 
 
+      - alert: SSHServiceDown
+        expr: node_systemd_unit_state{name=~"ssh.service|sshd.service", state="active"} == 0
+        for: 1m
+        labels:
+          severity: critical
+        annotations:
+          summary: "SSH service is down on {{ $labels.instance }}"
+          description: "SSH service has been inactive for more than 1 minute on {{ $labels.instance }}"
+
+
+  - name: disk_alerts
+    rules:
+    - alert: DiskWillFillSoon
+      # Predicts if 'free space' will be <= 0 in 4 hours, based on the last 6 hours of data
+      expr: predict_linear(node_filesystem_free_bytes{job="node"}[6h], 4 * 3600) <= 0
+      for: 5m
+      labels:
+        severity: warning
+      annotations:
+        summary: "Disk predicted to be full on {{ $labels.instance }}"
+        description: "Based on recent usage, the volume {{ $labels.mountpoint }} will run out of space in less than 4 hours."         
