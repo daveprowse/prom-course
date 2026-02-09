@@ -52,6 +52,8 @@ Be ready for alerts! Check to make sure they are firing in:
 - PagerDuty website < Prometheus service
 - Your phone/email/etc...!
 
+*You may find that PagerDuty will alert you via SMS text before the Prometheus or Alertmanager web UI does!*
+
 > Note: The free tier of Pagerduty has limited SMS messages (approximately 100) but will continue to email you if you run out of SMS. You can disable notification types in the Prometheus service, or globally in Profile > Notification Rules.
 
 Fix the problem! Restart the SSH service on the remote system. Wait a couple of minutes and check it in the Prometheus web UI and Alertmanager web UI. 
@@ -126,14 +128,14 @@ Grafana can create alerts based on panel queries and send notifications.
 1. Go to your Grafana dashboard
 2. Click **Alerting** (bell icon) > **Alert rules**
   > Note: Grafana should automatically see the rules from Prometheus, but no "Grafana-managed" rules.
-3. Click **+ Create alert rule**
+3. Click **+ New alert rule** and name the alert "ssh-alert".
 
 Configure the alert:
 
 **Section 1 - Set query and alert condition:**
 - Query: Select your Prometheus data source
 - Metric: `node_systemd_unit_state{name="ssh.service", state="active"}`
-- Expression: Set **Threshold** to `B < 1`
+- Expression: Set **Alert condition/Threshold** to `below < 1`
 
 **Section 2 - Set alert evaluation behavior:**
 - Folder: Create new folder "Linux Alerts"
@@ -141,7 +143,7 @@ Configure the alert:
 - Pending period: 1m
 
 **Section 3 - Add details:**
-- Alert name: `SSH Service Down`
+- Configure notifications by adding a contact point (the default is fine for this lab).
 - Summary: `SSH service is down on {{ $labels.instance }}`
 - Description: `SSH service has been inactive for more than 1 minute`
 
@@ -156,7 +158,7 @@ Repeat the process with:
 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
 ```
 
-**Threshold:** `B > 80`
+**Alert condition/Threshold:** `> 80`
 
 **Alert name:** `High CPU Usage`
 
@@ -170,7 +172,7 @@ Stop SSH service on monitored host:
 
 `sudo systemctl stop ssh`
 
-Wait 1-2 minutes, then check **Alerting > Alert rules**. Status should show **Firing**.
+Wait 1-2 minutes, then check **Alerting > Alert rules**. Status should show **Firing**. Refresh the screen if necessary.
 
 Restart SSH:
 
@@ -180,21 +182,41 @@ Restart SSH:
 
 Generate CPU load on monitored host:
 
-`dd if=/dev/zero of=/dev/null &`
+1. Install `stress` program (`sudo apt install stress`)
+2. Run command to initiate CPU stress test:
 
-Monitor in Grafana. Stop with:
-
-```bash
-fg
-Ctrl+C
 ```
+stress --cpu 4 -t 80
+```
+
+That should be enoug to trigger the alert. If not, you might need to run the program additional times to trigger the alert!
+
+Other options:
+
+- `dd if=/dev/zero of=/dev/null &`
+- `for i in {1..4}; do dd if=/dev/zero of=/dev/null & done`
+
+Monitor in Grafana. 
+
+Stop with `Ctrl+C` or `fg` and then `Ctrl+C`.
+
+> Note: You might have to wait several minutes, or restart the server, to show the alert status as normal again.
 
 ### View Alert History
 
-Go to **Alerting > Alert rules** to see:
-- Current state (Normal, Pending, Firing)
-- When alerts fired
-- Alert duration
+**In Grafana UI:**
+
+1. Go to Alerting > Alert rules
+2. Find your alert (e.g., "SSH Service Down")
+3. Click on the alert name to see details
+4. View the State history section showing when it fired/resolved
+
+**Or use Explore:**
+
+1. Go to Explore
+2. Query: `ALERTS{alertname="SSHServiceDown"}`
+3. Click the blue "Run Query" button to execute it.
+4. Shows timeline of alert states
 
 ---
 
@@ -216,3 +238,65 @@ Go to **Alerting > Alert rules** to see:
 1. Go to **Alerting > Notification policies**
 2. Edit default policy or create new
 3. Route alerts to specific contact points based on labels
+
+**Create a Recording Rule**
+
+Recording rules pre-calculate frequently used queries to improve performance.
+
+1. Add to `/etc/prometheus/rules.yml`:
+```yaml
+groups:
+  - name: cpu_rules
+    interval: 30s
+    rules:
+      - record: instance:cpu_usage:rate5m
+        expr: 100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)
+```
+
+2. Reload Prometheus:
+
+`sudo systemctl reload prometheus`
+
+3. Verify in Prometheus Web UI:
+4. Query: `instance:cpu_usage:rate5m`
+5. Use in Grafana:
+
+- Create new panel
+- Query: `instance:cpu_usage:rate5m`
+
+This metric updates every 30 seconds with pre-calculated CPU usage
+
+Benefits: Faster queries, reduced load on Prometheus.
+
+---
+
+## Recording Rules Explained:
+
+I didn't spend too much time on recording rules. Here's a little bit more information.
+
+**The Problem**
+
+Complex queries are slow and CPU-intensive. 
+
+Running `100 - (avg by(instance) (rate(node_cpu_seconds_total{mode="idle"}[5m])) * 100)` on every dashboard refresh taxes Prometheus.
+
+**The Solution**
+
+Recording rules pre-calculate and store the result as a simple metric like instance:cpu_usage:rate5m. Now dashboards just query the pre-calculated value.
+
+**Real-World Benefits**
+
+Example: You have 50 dashboards all calculating CPU usage the same way.
+
+Without recording rule: Prometheus calculates the same complex query 50 times
+With recording rule: Prometheus calculates once every 30s, stores it. Dashboards just read the stored value.
+
+**When to use**
+
+- Dashboard queries that run repeatedly
+- Complex calculations used across multiple alerts
+- High-cardinality aggregations (many instances/labels)
+
+Simple analogy: Instead of manually calculating your bank balance every time you check it, the bank pre-calculates and stores it for you. Much faster.
+
+---

@@ -68,7 +68,7 @@ Now let's create an alert tha twill notify us if the SSH server on a remote syst
 
 ```yaml
 - alert: SSHServiceDown
-  expr: node_systemd_unit_state{name=~"ssh.service|sshd.service", state="active"} == 0
+  expr: node_systemd_unit_state{name=~"ssh.service|sshd.service", state="active", job="remote-systems"} == 0
   for: 1m
   labels:
     severity: critical
