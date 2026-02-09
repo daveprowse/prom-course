@@ -16,11 +16,24 @@ To use the script, set the permissions to executable, and run the script with su
 
 `sudo ./alertmanager-script.sh`
 
-When you are done, check the installation and service:
+When you are done, check the installation, service, and web connection:
 
 `alertmanager --version`
 
 `systemctl status alertmanager`
+
+`http://<ip_address>:9093` and Status
+
+> Note: Make sure that port 9093 is open on your system and firewall.
+
+
+‼️ Now, make sure that Prometheus sends alerts to Alertmanager. Do this in `prometheus.yml`.
+
+Find the alerting section and uncomment the `- alertmanager:9093` line and change it to:
+
+```
+- <ip_address>:9093
+```
 
 ---
 

@@ -91,6 +91,7 @@ ExecStart=/usr/local/bin/alertmanager $ARGS \
 --config.file /etc/alertmanager/alertmanager.yml \
 --storage.path /var/lib/alertmanager/data \
 --web.listen-address=:9093
+ExecReload=/bin/kill -HUP $MAINPID
 
 [Install]
 WantedBy=multi-user.target

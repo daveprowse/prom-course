@@ -39,7 +39,11 @@ Install the node_exporter to whatever other systems you wish. You can even insta
 
 ## Modify the Configuration File
 
-Now, let's modify the prometheus.yml file on the Prometheus server so that we can track the remote system. By default, it can be found at:
+Now, let's modify the prometheus.yml file on the Prometheus server so that we can track the remote system. 
+
+> **Important!** Remember to backup any configuration files before making changes!
+
+By default, the file be found at:
 
 `/etc/prometheus/prometheus.yml`
 

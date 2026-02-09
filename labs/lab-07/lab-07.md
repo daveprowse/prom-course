@@ -17,7 +17,7 @@ groups:
   - name: node_rules
     rules:
       - alert: host-is-down
-        expr: up{job="node"} == 0
+        expr: up{job="remote-systems"} == 0
 ```
 
 Save the file.
@@ -34,13 +34,13 @@ Use the promtool to check the syntax of your rules file:
 
 `promtool check rules /etc/prometheus/rules.yml`
 
-Restart the prometheus and alertmanager services:
+Reload the prometheus service:
 
-`sudo systemctl reload {alertmanager,prometheus}`
+`sudo systemctl reload prometheus`
 
-Check them to make sure they are active:
+Check them to make sure it is active:
 
-`systemctl status {alertmanager,prometheus}`
+`systemctl status prometheus`
 
 ### View the new Alert
 
@@ -50,9 +50,13 @@ Click "Alerts". This should now show the "host-is-down" alert. However, it is gr
 
 Now, shut down the remote system that you are monitoring.
 
-While it is shutting down, take a look at the node_exporter dashboard in Grafana. The dreaded **N/A** will rear it's ugly head soon.
+While it is shutting down, take a look at the `up` query in Grafana. It should be flat lined.
 
 Now, view the Alert in the Prometheus web UI again. It should show one firing alert in read. Expand the drop down menu to see the particular host that is down.
+
+> Note: You can also view alerts in the Alertmanager GUI by accessing: `http://<ip_address>:9093`. We'll work with that more in an upcoming lab.
+
+Bring the second computer back up when you are ready.
 
 😁 This is how we do Prometheus. 😁
 
@@ -77,8 +81,10 @@ Now let's create an alert tha twill notify us if the SSH server on a remote syst
 - Reload the service
 - View it in the Prom Web UI
 - Shut down SSH on the remote system (or local if only one).
-- View the alert again
-- Restart the SSH service and verify that the alert stopped firing.
+- Wait 1 to 2 minutes
+- View the alert again. It should be firing! 
+  > Note: There may be a time when it says "pending".
+- Restart the SSH service and verify (after 1 to 2 minutes) that the alert stopped firing.
 
 ## Configure and View our Third Alert
 
