@@ -220,7 +220,7 @@ Stop with `Ctrl+C` or `fg` and then `Ctrl+C`.
 
 ---
 
-**🚀 EXCELLENT WORK! 🚀**
+**🚀 FANTASTIC! 🚀**
 
 ---
 
@@ -238,6 +238,8 @@ Stop with `Ctrl+C` or `fg` and then `Ctrl+C`.
 1. Go to **Alerting > Notification policies**
 2. Edit default policy or create new
 3. Route alerts to specific contact points based on labels
+
+---
 
 **Create a Recording Rule**
 

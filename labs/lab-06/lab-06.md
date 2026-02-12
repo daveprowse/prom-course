@@ -26,14 +26,21 @@ When you are done, check the installation, service, and web connection:
 
 > Note: Make sure that port 9093 is open on your system and firewall.
 
+## Configure Prometheus to Talk to Alertmanager
 
-‼️ Now, make sure that Prometheus sends alerts to Alertmanager. Do this in `prometheus.yml`.
+Now, make sure that Prometheus sends alerts to Alertmanager. 
 
-Find the alerting section and uncomment the `- alertmanager:9093` line and change it to:
+Do this in `/etc/prometheus/prometheus.yml`.
+
+Find the alerting section. 
+
+Uncomment the `- alertmanager:9093` line and change it to:
 
 ```
 - <ip_address>:9093
 ```
+
+This will be the address of your Prometheus server. If it is local, you can use `localhost` or `127.0.0.1` instead of `<ip_address>`.
 
 ---
 
