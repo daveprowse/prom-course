@@ -272,7 +272,9 @@ histogram.record(0.25, {"endpoint": "/api"})  # Record observation
 
 ## Stop the Application
 
-Press `Ctrl + C` in the terminal running `otel_app.py`.
+Before you stop the application, you migth want to check the custom PromQL dashboard we added to Grafana. It should show each of the labs we've done in this lesson. The `otel-app` should be up, others will be down!
+
+When you are done, press `Ctrl + C` in the terminal running `otel_app.py`.
 
 ---
 
