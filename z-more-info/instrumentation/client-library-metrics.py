@@ -25,8 +25,8 @@ request_latency = Summary('request_latency_seconds', 'Request latency')
 request_latency.observe(0.15)
 
 
-
 ## Basic Usage Pattern
+
 # 1. Import the library
 pythonfrom prometheus_client import Counter, start_http_server
 
