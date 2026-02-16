@@ -23,6 +23,21 @@ pip install prometheus-client
 ```
 
 > Note: On Debian, use `--break-system-packages` flag if needed.
+>
+> Note: This lab uses port 8100 to avoid conflicts with the web server from Lab 10 (which uses port 8000).
+
+---
+### tmux
+
+Consider using `tmux` or a similar multiplexing program so that you can split your terminal. 
+
+To enable mouse support in tmux press `:` then 
+
+```set -g mouse on
+```
+You can also add this to your `.tmux.conf` to make it permanent.
+
+---
 
 ## The Application
 
@@ -44,8 +59,8 @@ python3 task_processor.py
 
 You should see output like:
 ```
-Metrics server started on :8000
-Metrics available at http://localhost:8000/metrics
+Metrics server started on :8100
+Metrics available at http://localhost:8100/metrics
 Processing task 1
 Task 1 completed successfully in 0.87s
 Processing task 2
@@ -59,7 +74,7 @@ Let it run - it will process tasks continuously.
 In another terminal, check that metrics are being exposed:
 
 ```bash
-curl http://localhost:8000/metrics
+curl http://localhost:8100/metrics
 ```
 
 You should see metrics like:
@@ -95,15 +110,15 @@ Edit `/etc/prometheus/prometheus.yml`:
 scrape_configs:
   - job_name: 'task-processor'
     static_configs:
-      - targets: ['localhost:8000']
+      - targets: ['localhost:8100']
 ```
 
 > Note: Replace `localhost` with the IP address if running on a remote system.
 
-Restart Prometheus:
+Reload or Restart Prometheus:
 
 ```bash
-sudo systemctl restart prometheus
+sudo systemctl reload prometheus
 ```
 
 ## Query from Prometheus Web UI
@@ -140,7 +155,13 @@ View in Graph mode. Should fluctuate between 5 and 50.
 rate(tasks_processed_total[1m])
 ```
 
-Shows tasks per second.
+Shows tasks **per second** (averaged over the last 1 minute).
+
+> Note: `rate()` always returns per-second values. The `[1m]` is the lookback window for calculating the average. 
+
+Try adjusting the time to 2m, 3m, etc...
+
+> Note: To see the *total tasks per minute* try `increase(tasks_processed_total[1m])`.
 
 ### Query 5: 95th Percentile Task Duration
 
@@ -149,6 +170,8 @@ histogram_quantile(0.95, rate(task_duration_seconds_bucket[5m]))
 ```
 
 95% of tasks complete within this time.
+
+> Note: If your p95 value seems higher than expected (e.g., 4.5s when tasks max at 3.0s), this is due to histogram bucket interpolation. The buckets [0.1, 0.5, 1.0, 2.0, 5.0] have a large gap between 2.0 and 5.0. Prometheus linearly interpolates within that range. For more accurate percentiles, use finer-grained buckets like [0.1, 0.5, 1.0, 1.5, 2.0, 2.5, 3.0, 5.0] in `task_processor.py`.
 
 ### Query 6: Average Task Duration
 
@@ -194,7 +217,7 @@ Press `Ctrl + C` in the terminal running `task_processor.py`.
 
 ---
 
-**🎯 GREAT WORK! 🎯**
+👍 **Perfectamundo! You finished the lab!** 👍
 
 ---
 

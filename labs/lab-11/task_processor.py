@@ -62,9 +62,9 @@ def process_task(task_id):
 
 def main():
     # Start metrics server
-    start_http_server(8000)
-    print("Metrics server started on :8000")
-    print("Metrics available at http://localhost:8000/metrics")
+    start_http_server(8100)
+    print("Metrics server started on :8100")
+    print("Metrics available at http://localhost:8100/metrics")
     
     # Simulate task queue
     task_id = 1

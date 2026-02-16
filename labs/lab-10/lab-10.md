@@ -60,13 +60,13 @@ On the monitoring system go to the Prometheus configuration file:
 Add the host with a new job:
 
 ```yaml
-  - job_name: webserver
+  - job_name: "webserver"
     static_configs:
     - targets:
-      - localhost:8000
+      - "localhost:8000"
 ```
 
-> Note: If monitoring a remote system, replace `localhost` with the IP address of your system. Going forward, I won't note this anymore but instead will use `<ip_address>` as the placeholder. (You can opt to use double quotes `""` or not.)
+> Note: If monitoring a remote system, replace `localhost` with the IP address of your system. Going forward, I won't note this anymore but instead will use `<ip_address>` as the placeholder. (You can opt to use double quotes `""`, single quotes `''`, or neither.)
 
 > Note: Be careful with the syntax, it must be exact. For example, `static_configs:` has an underscore between the words. If something like this is omitted, the configuration will break, and the prometheus service will fail.
 
