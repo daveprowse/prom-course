@@ -31,11 +31,13 @@ pip install prometheus-client
 
 Consider using `tmux` or a similar multiplexing program so that you can split your terminal. 
 
-To enable mouse support in tmux press `:` then 
+To enable mouse support in tmux press `Ctrl+B`, then `:` then type:
 
-```set -g mouse on
 ```
-You can also add this to your `.tmux.conf` to make it permanent.
+set -g mouse on
+```
+
+You can also add this line to your `.tmux.conf` to make it permanent.
 
 ---
 

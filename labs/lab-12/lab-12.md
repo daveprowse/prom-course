@@ -11,8 +11,8 @@ In this lab we will:
 
 **OpenTelemetry (OTEL)** is a vendor-neutral observability framework for:
 - Metrics
-- Traces  
-- Logs
+- Logs 
+- Traces
 
 **Key difference from Prometheus client libraries:**
 - **Prometheus libraries:** Prometheus-only, metrics-focused
@@ -50,11 +50,13 @@ python3 -c "import opentelemetry; print('OTEL installed successfully')"
 
 The OTEL-instrumented application is provided in this lab directory as `otel_app.py`.
 
-Copy it to your working directory and make it executable:
+Copy it to your working directory and, if necessary, make it executable:
 
 ```bash
 chmod +x otel_app.py
 ```
+
+> Note: Consider using `tmux` to split the screen.
 
 ### Understanding the Application
 
@@ -154,7 +156,9 @@ Access the Prometheus Web UI at `http://localhost:9090`
 http_requests_total
 ```
 
-View in Table mode. Notice the OTEL labels (method, endpoint, status).
+View in Table mode. Notice the OTEL labels (method, endpoint, status). 
+
+> Note: This differs from the similar query for the Prometheus server `prometheus_http_requests_total`. If you wanted to see both, you could use regex, for example: `{__name__=~".*http_requests_total"}`.
 
 ### Query 2: Request Rate by Endpoint
 
@@ -272,7 +276,7 @@ Press `Ctrl + C` in the terminal running `otel_app.py`.
 
 ---
 
-**🌟 EXCELLENT! 🌟**
+**🌟 YES!! 🌟**
 
 ---
 
@@ -298,4 +302,3 @@ You've learned:
 
 ---
 
-**Next:** You can now instrument applications with both Prometheus and OpenTelemetry!
