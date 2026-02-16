@@ -125,7 +125,7 @@ This should show the version of Python that your system is running. For example:
 
 `python_info{implementation="CPython", instance="10.42.88.2:8000", job="webserver", major="3", minor="10", patchlevel="12", version="3.10.12"}`
 
-There you go! Some very basic scraping of data, but you get the idea. This webinar is not about custom instrumentation, but I wanted to show a basic example.
+There you go! Some very basic scraping of data, but you get the idea. This lab is not about custom instrumentation, but simply shows a basic example.
 
 ---
 
@@ -135,6 +135,8 @@ There you go! Some very basic scraping of data, but you get the idea. This webin
 
 ## Extra Credit
 
+### Access addition Metrics
+
 Try accessing additional metrics based on the ones that are listed when you run a:
 
 `curl http://<ip_address>:8000`
@@ -143,3 +145,7 @@ For example:
 
 - python_gc_collections_total
 - process_open_fds
+
+### Add an Alert in PagerDuty
+
+Try adding an alert for the web server in PagerDuty in the same manner that we did with the SSH server previously in the video course.
