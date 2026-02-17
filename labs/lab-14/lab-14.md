@@ -1,4 +1,4 @@
-# ⚙️ Lab 14 - Installing an Apache Exporter
+# ⚙️ Lab 14 - Apache Exporter & Analysis
 
 In this lab we will:
 
