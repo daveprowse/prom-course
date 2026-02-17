@@ -2,7 +2,7 @@
 
 #########################################
 
-## Updated 2025. Written by Dave Prowse: https://prowse.tech
+## Updated 2026. Written by Dave Prowse: https://prowse.tech
 
 ## This script will install the Prometheus Apache Exporter and run it as a service.
 

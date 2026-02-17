@@ -104,6 +104,8 @@ curl http://localhost:9117/metrics
 
 You should see a long list of metrics beginning with `apache_`.
 
+> Note: This exporter can be found at: https://github.com/Lusitaniae/apache_exporter
+
 ---
 
 ### Configure Prometheus
@@ -130,6 +132,8 @@ sudo systemctl reload prometheus
 Verify the target is up:
 
 Go to Prometheus Web UI > Status > Target Health. You should see `apache` listed with a status of **UP**.
+
+**Excellent! Take a break and then continue with Part 2!**
 
 ---
 
@@ -206,7 +210,7 @@ Re-run the queries above and view in Graph mode to see the changes.
 Or use the Apache Benchmark tool for a heavier load:
 
 ```bash
-ab -n 10000 -c 100 http://localhost/index.html
+ab -n 1000000 -c 100 http://localhost/index.html
 ```
 
 ---
@@ -227,7 +231,9 @@ A pre-built dashboard is available for the Apache Exporter.
 
 You should now see Apache metrics visualized across multiple panels including request rate, bytes transferred, worker status, and CPU load.
 
-> Note: Some panels may require traffic to display meaningful data. Run the load tests above if panels show no data.
+Run the load tests in the previous section to show actual data!
+
+## 💪 GREAT WORK! 💪**
 
 ---
 
@@ -260,10 +266,6 @@ Without `?auto`, Apache returns HTML instead of plain text and the exporter cann
 
 ---
 
-**💪 GREAT WORK! 💪**
-
----
-
 ## Extra Credit
 
 **Monitor specific virtual hosts:**
@@ -285,7 +287,7 @@ If running multiple virtual hosts, you can point the exporter at a specific serv
 rate(apache_sent_kilobytes_total[5m]) * 1024 / rate(apache_accesses_total[5m])
 
 # Worker utilization percentage
-apache_workers{state="busy"} / (apache_workers{state="busy"} + apache_workers{state="idle"}) * 100
+apache_workers{state="busy"} / ignoring(state) (apache_workers{state="busy"} + ignoring(state) apache_workers{state="idle"}) * 100
 
 # Requests per minute
 rate(apache_accesses_total[1m]) * 60
@@ -293,9 +295,15 @@ rate(apache_accesses_total[1m]) * 60
 
 ---
 
-### Links for the Apache Exporter and Corresponding Dashboard
+### Links for the Apache Exporter and Apache Dashboard
+
+Credit where credit is due!
+
+**Apache Exporter**
 
 https://github.com/Lusitaniae/apache_exporter
+
+**Apache Dashboard**
 
 https://grafana.com/grafana/dashboards/3894-apache/
 
