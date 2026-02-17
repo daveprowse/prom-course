@@ -1,0 +1,13 @@
+# Add this to your /etc/prometheus/prometheus.yml
+
+scrape_configs:
+  - job_name: 'linux-nodes'
+    scheme: https
+    tls_config:
+      ca_file: /etc/prometheus/node_exporter.crt
+      insecure_skip_verify: true  # Use false in production with proper CA
+    static_configs:
+      - targets: ['10.42.88.2:9100']
+
+# Note that insecure_skip_verify: true works for self-signed certs.
+# In production, you would use a proper CA and set this to false.

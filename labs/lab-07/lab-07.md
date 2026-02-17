@@ -107,6 +107,12 @@ groups:
       description: "Based on recent usage, the volume {{ $labels.mountpoint }} will run out of space in less than 4 hours."
 ```
 
+- Check the Rules File with promtool
+
+  ```
+  promtool check rules /etc/prometheus/rules.yml
+  ```
+
 - Reload the service
 - View it in the Prom Web UI
 
