@@ -66,6 +66,12 @@ By default, the file be found at:
 > `10.42.25.2`
 
 - Save and quit out of the file.
+- Check the configuration syntax of your Prometheus configuration file:
+
+  ```bash
+  promtool check config /etc/prometheus/prometheus.yml
+  ```
+
 - Restart the prometheus service:
 
   `sudo systemctl reload prometheus`
