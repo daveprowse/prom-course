@@ -1,0 +1,43 @@
+# Kubernetes Service Discovery Example
+# Used when Prometheus runs INSIDE a Kubernetes cluster
+
+scrape_configs:
+  # Discover all pods with prometheus.io/scrape annotation
+  - job_name: 'kubernetes-pods'
+    kubernetes_sd_configs:
+      - role: pod
+    relabel_configs:
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
+        action: keep
+        regex: true
+      - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_port]
+        action: replace
+        target_label: __address__
+        regex: ([^:]+)(?::\d+)?;(\d+)
+        replacement: $1:$2
+
+  # Discover all nodes (for node-exporter)
+  - job_name: 'kubernetes-nodes'
+    kubernetes_sd_configs:
+      - role: node
+    relabel_configs:
+      - action: labelmap
+        regex: __meta_kubernetes_node_label_(.+)
+
+  # Discover all services
+  - job_name: 'kubernetes-services'
+    kubernetes_sd_configs:
+      - role: service
+
+  # Discover all endpoints
+  - job_name: 'kubernetes-endpoints'
+    kubernetes_sd_configs:
+      - role: endpoints
+
+# How it works:
+# - Prometheus talks to Kubernetes API
+# - Automatically discovers resources (pods/nodes/services/endpoints)
+# - Uses annotations/labels to filter what to scrape
+# - Updates automatically as K8s resources change
+
+# This is what kube-prometheus-stack does automatically!

@@ -270,6 +270,8 @@ Review the IP addresses used by the controller and workers, and the containers.
 
 View the "Alerts" section. Bask in the glory of pre-built alerts!
 
+> Note: Kubernetes service discovery happens automatically behind the scenes with the Prometheus Community stack. For a configuration example, see [this file](../../z-more-info/configs/service-discovery/kubernetes-sd-example.yml) in z-more-info > configs > service-discovery.
+
 ### Using Promtool for Analysis
 
 Promtool provides powerful commands for analyzing your Prometheus time-series database (TSDB).

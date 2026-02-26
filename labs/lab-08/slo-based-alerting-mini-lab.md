@@ -121,6 +121,8 @@ http:availability:sli
 
 Should show a 1 or ~0.999 if healthy.
 
+> Note: To actually trigger the alarm we would need a web server that actually tracks bad connections. See [Testing Your SLO Alert](../../z-more-info/additional-labs/testing-your-slo-alert.md) for a short lab on how to do this. 
+
 ---
 
 ## Why This Matters
@@ -149,3 +151,5 @@ Should show a 1 or ~0.999 if healthy.
 **For production:** Use tools like Sloth to generate multi-window burn rate alerts automatically.
 
 **Learn more:** Google SRE Book - https://sre.google/sre-book/service-level-objectives/
+
+## 😀 FANTASTIC! 
