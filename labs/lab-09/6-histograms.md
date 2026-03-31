@@ -61,7 +61,7 @@ histogram_quantile(0.95, rate(prometheus_http_request_duration_seconds_bucket[5m
 histogram_quantile(0.50, rate(prometheus_http_request_duration_seconds_bucket[5m]))
 ```
 
-> Note: This calculates the 50th percentile (also called the median) of HTTP request durations. 
+> Note: This calculates the 50th percentile (also called the median) of HTTP request durations. A result might be: 0.025 (seconds, or 25 milliseconds)
 > 
 > A quantile (or percentile) tells you: "What value do X% of observations fall below?"
 
