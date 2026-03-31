@@ -156,8 +156,8 @@ You now have TWO Prometheus servers running:
 
 | Instance | Port | Access |
 |----------|------|--------|
-| **Native** | 9090 | http://10.42.88.1:9090 |
-| **Docker** | 9091 | http://10.42.88.1:9091 |
+| **Native** | 9090 | http://<ip_address>:9090 |
+| **Docker** | 9091 | http://<ip_address>:9091 |
 
 **Try opening both in separate browser tabs!**
 
@@ -337,8 +337,6 @@ docker run hello-world
 **If "permission denied":**
 ```bash
 # Logout and login again for group membership to take effect
-exit
-ssh sa@10.42.88.1
 docker ps  # should work now
 ```
 
