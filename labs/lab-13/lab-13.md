@@ -6,7 +6,6 @@ In this lab we will:
 
 - Install the node_exporter Grafana Dashboard
 - Test against nodes and analyze the results
-- Install an Apache Exporter
 
 > Note: This is a large lab. Take it slow, and take breaks as necessary.
 
@@ -26,7 +25,7 @@ Add the following job:
       - targets: ['<ip_address>:9100']
 ```
 
-> Note: We could use the previous job (remote-systems) where Prometheus was scraping from the node_exporter, but I'd like to keep the jobs separate to avoidd confusion.
+> Note: We could use the previous job (remote-systems) where Prometheus was scraping from the node_exporter, but I'd like to keep the jobs separate to avoid confusion.
 
 Restart the prometheus service.
 
@@ -49,7 +48,7 @@ On your main Prometheus monitoring system:
   > Note: at the time of this writing, the ID is 1860.
 
 - Select a name for the dashboard.
-- Select the Prometheus data source. This should be *prometheus-1*.
+- Select the Prometheus data source. 
 - Click "Import".
 
 You should now see the new dashboard but it might not show any metrics until we configure it.

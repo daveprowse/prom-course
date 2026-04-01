@@ -141,7 +141,7 @@ scrape_configs:
 Reload Prometheus:
 
 ```bash
-sudo systemctl reload prometheus
+sudo systemctl restart prometheus
 ```
 
 ---
