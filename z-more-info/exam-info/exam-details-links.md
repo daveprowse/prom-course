@@ -25,6 +25,10 @@ This document gives some basic details about the actual **Prometheus Certified A
  
     https://github.com/cncf/curriculum/blob/master/PCA_Curriculum.pdf 
 
+- **PSI System Requirements**
+
+    https://helpdesk.psionline.com/hc/en-gb/articles/4409608794260-PSI-secure-browser-and-Chrome-Extension-System-Requirements
+
 - **LinuxFoundation link for remote testing tutorial:** 
 
     https://docs.linuxfoundation.org/tc-docs/certification/lf-handbook2/psi-remote-testing-tutorial-test-the-secure-browser-+-add-appointment-to-your-online-calendar 

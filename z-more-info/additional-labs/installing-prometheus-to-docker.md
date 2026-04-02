@@ -45,13 +45,8 @@ global:
   evaluation_interval: 15s
 
 scrape_configs:
-  # Monitor itself on port 9091
+  # Monitor itself
   - job_name: 'prometheus-docker'
-    static_configs:
-      - targets: ['localhost:9091']
-  
-  # Monitor native Prometheus on port 9090
-  - job_name: 'prometheus-native'
     static_configs:
       - targets: ['localhost:9090']
 EOF
@@ -100,20 +95,15 @@ abc123...      prom/prometheus:latest   Up 5 seconds   0.0.0.0:9091->9090/tcp
 # Docker Prometheus
 curl -s http://localhost:9091/-/healthy
 # Should return: Prometheus is Healthy.
-
-# Native Prometheus (for comparison)
-curl -s http://localhost:9090/-/healthy
 ```
 
 ### Query Metrics
 ```bash
-# Check if both Prometheus instances are up
+# Check if Prometheus is up
 curl -s 'http://localhost:9091/api/v1/query?query=up' | jq .
 ```
 
-**Should show both targets:**
-- `prometheus-docker` on port 9091
-- `prometheus-native` on port 9090
+**Should show the target as UP.**
 
 ---
 
@@ -132,34 +122,20 @@ http://<ip_address>:9091
 
 **1. Check Targets Status:**
 - Navigate to: **Status → Targets**
-- Should see both endpoints as "UP":
-  - `prometheus-docker` (localhost:9091)
-  - `prometheus-native` (localhost:9090)
+- Should see endpoint as "UP":
+  - `prometheus-docker` (localhost:9090)
 
 **2. Run a Query:**
 - Click **Graph** tab
 - Enter query: `up`
 - Click **Execute**
-- Should see 2 results with value = 1
+- Should see 1 result with value = 1
 
 **3. View Metrics:**
 - Click **Graph** tab
 - Enter query: `process_resident_memory_bytes`
 - Click **Execute** then **Graph** tab
 - See memory usage over time
-
----
-
-## Comparing Both Prometheus Instances
-
-You now have TWO Prometheus servers running:
-
-| Instance | Port | Access |
-|----------|------|--------|
-| **Native** | 9090 | http://<ip_address>:9090 |
-| **Docker** | 9091 | http://<ip_address>:9091 |
-
-**Try opening both in separate browser tabs!**
 
 ---
 
@@ -241,11 +217,33 @@ docker exec prometheus-docker promtool check config /etc/prometheus/prometheus.y
 docker exec prometheus-docker cat /etc/prometheus/prometheus.yml
 ```
 
+### Target Shows as DOWN
+
+If the `prometheus-docker` target shows as DOWN in Status → Targets:
+
+**Check the configuration:**
+```bash
+# View current config
+docker exec prometheus-docker cat /etc/prometheus/prometheus.yml
+```
+
+Make sure it shows `localhost:9090` (not `localhost:9091`).
+
+**Restart the container:**
+```bash
+docker restart prometheus-docker
+```
+
+**Check logs for scrape errors:**
+```bash
+docker logs prometheus-docker | grep -i error
+```
+
 ---
 
 ## Cleanup
 
-Remove Docker Prometheus (keeps native Prometheus):
+Remove Docker Prometheus:
 ```bash
 # Stop and remove container
 docker stop prometheus-docker
@@ -253,9 +251,6 @@ docker rm prometheus-docker
 
 # Remove config directory
 rm -rf ~/prometheus-docker
-
-# Verify native Prometheus still running
-curl http://localhost:9090/-/healthy
 ```
 
 ---
