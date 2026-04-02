@@ -127,7 +127,7 @@ If you have more than one system, install the Apache Utilities to the monitoring
 
 On the monitoring system, run the `ab` command to simulate HTTP queries to the second system (the one to be monitored). For example:Why re-create the wheel? (Or gauge as the case may be :) )
 
-`ab -n 1000000 -c 100 http://10.42.88.2:80/index.html`
+`ab -n 1000000 -c 100 http://<ip_address>:80/index.html`
 
 > Note: you could use any working web server on the remote system.
 
@@ -139,7 +139,7 @@ Also note the Network Traffic graph, this will show that the remote system is *t
 
 To really flood the CPU, try increasing the options:
 
-`ab -n 10000000 -c 1000 http://10.42.88.2:80/index.html`
+`ab -n 10000000 -c 1000 http://<ip_address>:80/index.html`
 
 While that is a good test of the system load, it doesn't really test the Apache web server itself. That is for later!
 

@@ -657,7 +657,7 @@ replicaset.apps/httpd-deployment-67fcb6ffc9   2         2         2       48s
 
 Make note of the ports being used by *service/httpd-service* - specifically the second port (in this case port 32321). Try connecting to the web server on that port using the controller node's main IP address. For example:
 
-`curl http://10.42.88.100:32321`
+`curl http://10.42.25.100:32321`
 
 If the return message says that "It works!" then you are good.
 

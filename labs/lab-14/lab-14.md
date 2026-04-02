@@ -215,16 +215,16 @@ ab -n 1000000 -c 100 http://localhost/index.html
 
 ---
 
-### Import the Grafana Dashboard
+### Import a Grafana Dashboard
 
 A pre-built dashboard is available for the Apache Exporter.
 
-**Dashboard ID:** `3894`
+**Dashboard ID:** `17571`
 
 **Import steps:**
 
 1. In Grafana, go to **Dashboards > New > Import**
-2. Enter ID: `3894`
+2. Enter ID: `17571`
 3. Click **Load**
 4. Select your Prometheus datasource
 5. Click **Import**
