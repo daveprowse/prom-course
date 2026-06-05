@@ -71,6 +71,9 @@ Create a file called `prometheus-values.yaml` in your home directory with the fo
 
 ```yaml
 grafana:
+  operator:
+    enabled: false
+    dashboardsConfigMapRefEnabled: false
   sidecar:
     dashboards:
       enabled: true
@@ -80,7 +83,7 @@ grafana:
         ENABLE_5XX: "false"
         HEALTH_SERVER_PORT: "8081"
     datasources:
-      enabled: true  
+      enabled: true
       env:
         SKIP_TLS_VERIFY: "true"
         ENABLE_5XX: "false"
@@ -88,6 +91,8 @@ grafana:
 ```
 
 Save the file.
+
+> Note: There is an older version of the values file fix at the end of this document.
 
 Install the Prometheus stack using Helm and referring to our values file:
 
@@ -772,3 +777,38 @@ You can use several other built-in dashboards to further monitor the service, po
 ## Extra Extra Credit
 
 - You might also want to monitor a Kubernetes cluster *externally* from a stand-alone Prometheus server. See this lab for details!
+
+## Older Version of Values File
+
+This is the older version of the values file that fixes the Grafana pods issue when installing the Prometheus stack. 
+
+```yaml
+grafana:
+  sidecar:
+    dashboards:
+      enabled: true
+      env:
+        SKIP_TLS_VERIFY: "true"
+        IGNORE_ALREADY_PROCESSED_CONFIG_MAPS: "true"
+        ENABLE_5XX: "false"
+        HEALTH_SERVER_PORT: "8081"
+    datasources:
+      enabled: true  
+      env:
+        SKIP_TLS_VERIFY: "true"
+        ENABLE_5XX: "false"
+        HEALTH_SERVER_PORT: "8082"
+```
+
+To use it, first uninstall the Prometheus namespace:
+
+
+```
+helm uninstall stable -n prometheus
+```
+
+Then reinstall:
+
+```
+helm install stable prometheus-community/kube-prometheus-stack -n prometheus -f prometheus-values.yaml
+```
