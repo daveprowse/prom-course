@@ -812,3 +812,5 @@ Then reinstall:
 ```
 helm install stable prometheus-community/kube-prometheus-stack -n prometheus -f prometheus-values.yaml
 ```
+
+> Note: This is an interesting bug that has not been addressed by the Prometheus Community (and perhaps they should not even be responsible for addressing it at all). It doesn't occur in minikube or in vanilla K8s. The likely explanation is that MicroK8s itself presents a slightly different Kubernetes API environment that affects how the chart templates are rendered — specifically how missing values are handled during template execution. The nil pointer error is a chart-side issue where the template doesn't guard against missing keys, and it surfaces in MicroK8s but not minikube or vanilla K8s for reasons that aren't fully clear from the available bug reports.
